@@ -20,8 +20,8 @@ const getReview = (req, res) => {
   if (req.params.count !== undefined) {
     limit = req.params.count;
   }
-  if (req.params.product_id !== undefined) {
-    productId = req.params.product_id;
+  if (req.params[0] !== undefined) {
+    productId = parseInt(req.params['0']);
   }
   if (req.params.sort !== undefined) {
     orderBy = req.params.sort;
@@ -198,7 +198,7 @@ const markHelpful = (req, res) => {
   pool.query(`UPDATE reviewtest SET helpfulness=${req.body.helpfulness} WHERE id=${req.body.review_id}`)
   .then(result => {
     console.log('Helpfulness marked');
-    res.status(200).send('Helpfulness marked')
+    res.status(204).send('Helpfulness marked')
   })
   .catch(err => {
     if (err) {
@@ -216,7 +216,7 @@ const markReported = (req, res) => {
   pool.query(`UPDATE reviewtest SET reported=true WHERE id=${req.body.review_id}`)
   .then(result => {
     console.log('Review reported');
-    res.status(200).send('Review reported')
+    res.status(204).send('Review reported')
   })
   .catch(err => {
     if (err) {
