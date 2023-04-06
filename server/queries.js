@@ -231,62 +231,6 @@ module.exports = {
   getMeta,
   postReview,
   markHelpful,
-  markReported
-}
-
-
-async function setupTable(client) {
-  let createReviewTableQuery = `
-    CREATE TABLE IF NOT EXISTS review(
-      id BIGINT PRIMARY KEY NOT NULL ,
-      product_id INT,
-      rating INT,
-      date BIGINT,
-      summary VARCHAR,
-      body VARCHAR,
-      recommend BOOLEAN,
-      reported BOOLEAN,
-      reviewer_name VARCHAR,
-      reviewer_email VARCHAR,
-      response VARCHAR,
-      helpfulness INT
-    );
-  `;
-
-  let createPhotoTableQuery = `
-    CREATE TABLE IF NOT EXISTS photo(
-      photo_id SERIAL PRIMARY KEY NOT NULL,
-      review_id INT,
-      url VARCHAR,
-      CONSTRAINT fk_review FOREIGN KEY(review_id) REFERENCES review(id)
-    );
-  `;
-
-  let createCharacteristicTableQuery = `
-    CREATE TABLE IF NOT EXISTS characteristic(
-      id SERIAL PRIMARY KEY NOT NULL ,
-      product_id INT,
-      name VARCHAR
-    );
-  `;
-
-  let createCharacteristicReviewsTableQuery = `
-    CREATE TABLE IF NOT EXISTS characteristicReviews(
-      id SERIAL PRIMARY KEY NOT NULL ,
-      characteristic_id INT,
-      review_id INT,
-      value INT,
-      CONSTRAINT fk_review FOREIGN KEY(review_id) REFERENCES review(id),
-      CONSTRAINT fx_characteristic FOREIGN KEY(characteristic_id) REFERENCES characteristic(id)
-    );
-  `;
-
-  let populateReviewsTable = `
-    COPY review
-    FROM '/Users/homeac/Downloads/reviews.csv'
-    DELIMITER ','
-    CSV HEADER;
-  `
-
-  return
+  markReported,
+  pool
 }
