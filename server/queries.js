@@ -50,7 +50,7 @@ const getReview = (req, res) => {
 
     getPhotos(data.rows, 0,  (result) => {
       var modified = {
-        product: parseInt(req.originalUrl.substring(1)),
+        product: parseInt(productId),
         page: page,
         count: limit,
         results: result
@@ -63,13 +63,13 @@ const getReview = (req, res) => {
 const getMeta = (req, res) => {
   var productId = 4;
 
-  if (req.params.product_id !== undefined) {
-    productId = req.params.product_id;
+  if (req.body.product_id !== undefined) {
+    productId = req.body.product_id;
   }
 
   pool.query(`select review.rating, review.id from review where product_id=${parseInt(productId)}`)
   .then(data => {
-    console.log('1 DATA', data.rows)
+    //console.log('1 DATA', data.rows)
     var ratings = {
       0: 0,
       1: 0,
@@ -86,7 +86,7 @@ const getMeta = (req, res) => {
 
     pool.query(`select characteristicreviews.characteristic_id, characteristicreviews.value from characteristicreviews where characteristicreviews.review_id=${parseInt(data.rows[0].id)}`)
     .then(result => {
-      console.log('2 RES', result.rows)
+      //console.log('2 RES', result.rows)
       var characteristics = {};
 
       function getCharNames (array, loc, callback) {
@@ -95,7 +95,7 @@ const getMeta = (req, res) => {
         } else {
           pool.query(`select characteristic.name from characteristic where id=${array[loc].characteristic_id}`)
           .then(name => {
-            console.log(name.rows[0].name, {id: array[loc].characteristic_id, value: array[loc].value})
+            //console.log(name.rows[0].name, {id: array[loc].characteristic_id, value: array[loc].value})
             characteristics[name.rows[0].name] = {id: array[loc].characteristic_id, value: array[loc].value};
             getCharNames(array, (loc+1), callback);
           })
