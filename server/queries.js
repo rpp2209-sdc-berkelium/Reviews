@@ -11,10 +11,6 @@ const pool = new Pool({
   ssl: false,
 })
 
-// pool.query('SELECT NOW()', (err, res) => {
-//   console.log(err, res)
-//   pool.end()
-// })
 
 const getReview = (req, res) => {
   var limit = 5;
@@ -34,10 +30,10 @@ const getReview = (req, res) => {
   if (req.params.page !== undefined) {
     page = req.params.page;
   }
-  console.log('made past prereq ifs')
+
   pool.query(`SELECT * FROM review WHERE product_id=${parseInt(productId)} ORDER BY ${orderBy} LIMIT ${limit}`)
   .then(data => {
-    console.log('pool query success')
+
     function getPhotos (reviewArray, loc, callback) {
       if (loc === reviewArray.length) {
         callback(reviewArray);
